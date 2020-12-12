@@ -125,7 +125,7 @@ var endGame = function() {
     }
 };
 
-
+//shop function
 var shop = function() {
     //ask player what they would like to do
     var shopOptionPrompt = window.prompt (
@@ -181,8 +181,5 @@ var shop = function() {
 
 //start t9e game when the page loads
 startGame();
-
-//play again
-endGame();
 
 
