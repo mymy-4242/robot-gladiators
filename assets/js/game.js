@@ -1,15 +1,28 @@
-var playerName = window.prompt("What is your robot's name?");
-var playerHealth = 100;
-var playerAttack = 10;
-var playerMoney = 10;
+var playerInfo = {
+    name: window.prompt("What is your robot's name?"),
+    health: 100,
+    attack: 10,
+    money: 10,
+};
 
-var enemyNames = ["Roborto", "Amy Android", "Robo Trumble"];
-var enemyHealth = 50;
-var enemyAttack = 12;
+var enemyInfo = [
+    {
+        name: "Roberto",
+        attack: 12
+    },
+    {
+        name: "Amy Android",
+        attack: 13
+    },
+    {
+        name: "Robo Trumble",
+        attack: 14
+    }
+];
 
 var fight = function(enemyName) {
     //repeat and execute as long as the enemy-robot is alive
-    while(enemyHealth > 0 && playerHealth > 0) {
+    while(enemyHealth > 0 && playerInfo.health > 0) {
 
         var promptFight = window.prompt("Would you like to FIGHT or SKIP this battle? Enter 'FIGHT' or 'SKIP' to choose.");
 
@@ -20,21 +33,21 @@ var fight = function(enemyName) {
                            
                 //if yes (true), leave fight
                 if (confirmSkip) {
-                    window.alert(playerName + " has decided to skip this fight. Goodbye!");
-                    //subtract money from playerMoney for skipping
-                    playerMoney = Math.max(0, playerMoney - 1);
-                    console.log("playerMoney", playerMoney);   
+                    window.alert(playerInfo.name + " has decided to skip this fight. Goodbye!");
+                    //subtract money from playerInfo.money for skipping
+                    playerInfo.money = Math.max(0, playerInfo.money - 1);
+                    console.log("playerInfo.money", playerInfo.money);   
                     break;
                 }
-            }
+            } 
 
             //generate random damage value based on player's attack
-            var damage = randomNumber(playerAttack - 3, playerAttack);
+            var damage = randomNumber(playerInfo.attack - 3, playerInfo.attack);
             
             enemyHealth = Math.max(0, enemyHealth - damage);
 
             console.log(
-                playerName + " attacked " + enemyName + ". " + enemyName + " now has " + enemyHealth + " health remaining."
+                playerInfo.name + " attacked " + enemyName + ". " + enemyName + " now has " + enemyHealth + " health remaining."
             );
 
             //check enemy's health
@@ -42,7 +55,7 @@ var fight = function(enemyName) {
                 window.alert(enemyName + " has died!");
 
                 //award player money for winning
-                playerMoney = playerMoney + 20;
+                playerInfo.money = playerInfo.money + 20;
 
                 //leave while() loop since enemy is dead
                 break;
@@ -52,21 +65,21 @@ var fight = function(enemyName) {
             }
 
             //generate random value based on enemy's attack power
-            var damage = randomNumber(enemyAttack - 3, enemyAttack);
+            var damage = randomNumber(enemyInfo.attack - 3, enemyInfo.attack);
            
-            playerHealth = Math.max(0, playerHealth - damage);
+            playerInfo.health = Math.max(0, playerInfo.health - damage);
 
             console.log(
-                enemyName + " attacked " + playerName + ". " + playerName + " now has " + playerHealth + " health remaining."
+                enemyName + " attacked " + playerInfo.name + ". " + playerInfo.name + " now has " + playerInfo.health + " health remaining."
             );
 
             //check player's health
-            if (playerHealth <= 0) {
-                window.alert(playerName + " has died!");
+            if (playerInfo.health <= 0) {
+                window.alert(playerInfo.name + " has died!");
                 break;
                 
             } else {
-                window.alert(playerName + " still has " + playerHealth + " health left.");
+                window.alert(playerInfo.name + " still has " + playerInfo.health + " health left.");
             }
     
     }
@@ -76,23 +89,23 @@ var fight = function(enemyName) {
 //function to start game
 var startGame = function() {
     //reset player stats
-    playerHealth = 100;
-    playerAttack = 10;
-    playerMoney = 10;
+    playerInfo.health = 100;
+    playerInfo.attack = 10;
+    playerInfo.money = 10;
 
-    for(var i = 0; i < enemyNames.length; i++) {
-        if (playerHealth > 0) {
+    for(var i = 0; i < enemyInfo.length; i++) {
+        if (playerInfo.health > 0) {
             window.alert("Welcome to Robot Gladiators! Round " + (i + 1));
         
-            var pickedEnemyName = enemyNames[i];
+            var pickedEnemyObj = enemyInfo[i];
 
-            enemyHealth = randomNumber(40, 60);
+            pickedEnemyObj.health = randomNumber(40, 60);
 
             //call fight function with enemy-root
-            fight(pickedEnemyName);
+            fight(pickedEnemyObj);
 
             //if we're not at the last enemy in the array
-            if (playerHealth > 0 && i < enemyNames.length - 1) {
+            if (playerInfo.heatlh > 0 && i < enemyInfo.name.length - 1) {
                 //ask if player wants to use the store before the next round
                 var storeConfirm = window.confirm("The fight is over, would you like to visit the store?");
 
@@ -113,8 +126,8 @@ var startGame = function() {
 
 //function to end the game
 var endGame = function() {
-    if (playerHealth > 0) {
-        window.alert("Great job, you've survived the game! You now have a score of " + playerMoney + ".");    
+    if (playerInfo.heatlh > 0) {
+        window.alert("Great job, you've survived the game! You now have a score of " + playerInfo.money + ".");    
     }
     else {
         window.alert("You've lost your robot in battle.");
@@ -140,12 +153,12 @@ var shop = function() {
         switch (shopOptionPrompt) {
             case "refill":
             case "REFILL":    
-                if (playerMoney >= 7) {
+                if (playerInfo.money >= 7) {
                     window.alert("Refilling player's health by 20 for 7 dollars.");
 
                     //increase health and decrease money
-                    playerHealth = playerHealth + 20;
-                    playerMoney = playerMoney - 7;
+                    playerInfo.heatlh = playerInfo.heatlh + 20;
+                    playerInfo.money = playerInfo.money - 7;
                 }
                 else {
                     window.alert("You don't have enough money!");
@@ -155,12 +168,12 @@ var shop = function() {
             
             case "upgrade":
             case "UPGRADE":    
-                if (playerMoney >= 7) {
+                if (playerInfo.money >= 7) {
                     window.alert("Upgrading player's attack by 6 for 7 dollars.");
                 
                     //increase attack and decrease money
-                    playerAttack = playerAttack + 6;
-                    playerMoney = playerMoney - 7;
+                    playerInfo.attack = playerInfo.attack + 6;
+                    playerInfo.money = playerInfo.money - 7;
                 }
                 else {
                     window.alert("You don't have enough money!");
